@@ -18,10 +18,10 @@ class Player():
         self.radius = radius
         self.name = ''
         self.walls_remain = walls_remain
-	
-	def plus_wall(self):
-		"""plus new walls+1"""
-		self.walls_remain+=1
+
+    def plus_wall(self):
+        """plus walls+1"""
+	  self.walls_remain+=1
 
     def set_name(self, name):
         """Set the name of the player"""
