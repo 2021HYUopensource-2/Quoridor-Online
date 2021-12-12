@@ -153,6 +153,34 @@ def client(host, port):
                 if player.can_play(game):
                     player.play_move(walls, n)
 
+            elif(False):    # One more time
+                if event.type == pygame.QUIT:
+                    run = False
+                    pygame.quit()
+
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    pos = pygame.mouse.get_pos()
+                    if win.button_quit.click(pos):
+                        run = False
+                        pygame.quit()
+                    elif (not game.run and win.button_restart.click(pos)
+                            and win.button_restart.show):   # Restart
+                        coords.reset()
+                        players.reset(coords)
+                        walls.reset()
+                        pf.reset()
+                        win.button_restart.show = False
+                        n.send(';'.join(['R', str(num_player)]))
+                    elif player.can_play_wall(game):    # Put a wall
+                        mes = player.play_put_wall(
+                            pos, coords, walls, n, pf, players)
+                        if mes != '':
+                            win.update_info(mes)
+
+                elif event.type == pygame.KEYDOWN:  # Move pawn
+                    if player.can_play(game):
+                        player.play_move(walls, n)
+
     print("Good bye!")
 
 
