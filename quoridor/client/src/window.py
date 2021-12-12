@@ -10,6 +10,7 @@ from quoridor.client.src.coord import Coords
 
 def pos_in_rect(rect, pos):
     """Return True if pos is in the rectangle"""
+    """마우스가 사각형 안에 있으면 return true(?)"""
     pos_x, pos_y = pos
     x, y, width, height = rect
     return (x <= pos_x <= x + width
@@ -18,6 +19,7 @@ def pos_in_rect(rect, pos):
 
 class Window:
     """Create the window"""
+    """게임창 만들기"""
     def __init__(self, width=1000, height=830, case_side=65, wall_width=15,
                  title="Quoridor Online", bgcolor=Colors.white):
         self.width = width
@@ -41,12 +43,14 @@ class Window:
 
     def update_info(self, text, color=None):
         """Update info text"""
+        """정보 업데이트"""
         self.info.text = text
         if color is not None:
             self.info.color = color
 
     def draw_game_board(self, pos):
         """Draw the game board"""
+        """게임 보드 그리기"""
         for c in self.coords.coords:
             rect = c.rect
             if pos_in_rect(rect, pos):
@@ -63,6 +67,7 @@ class Window:
 
     def draw_finish_lines(self, players):
         """Draw the finish lines with the player's color"""
+        """도착선 플레이어 색으로 그리기"""
         for p in players.players:
             if p.name != '':
                 if p.orient == "north":
@@ -94,6 +99,7 @@ class Window:
 
     def draw_right_panel(self, game, players):
         """Draw the right panel with player's informations"""
+        """오른쪽에 플레이어 정보 패널 그리기"""
         x, y = self.side_board + 50, 20
         self.title.draw(self.win, (x + 10, y))
         for p in players.players:
@@ -103,12 +109,14 @@ class Window:
 
     def draw_buttons(self):
         """Draw buttons"""
+        """버튼 그리기"""
         for b in self.buttons:
             if b.show:
                 b.draw(self.win)
 
     def redraw_window(self, game, players, walls, pos):
         """Redraw the full window"""
+        """전체화면(?)으로 다시 그리기"""
         self.win.fill(self.bgcolor)
         self.draw_game_board(pos)
         self.draw_finish_lines(players)
