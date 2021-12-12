@@ -9,6 +9,7 @@ from quoridor.client.src.colors import Colors
 
 class Player():
     """Create a player"""
+    """플레이어 생성"""
     def __init__(self, num_player, walls_remain, orient, color, coord,
                  radius=20):
         self.num_player = num_player
@@ -21,27 +22,33 @@ class Player():
 
     def set_name(self, name):
         """Set the name of the player"""
+        """플레이어 닉네임 설정"""
         if name != '':
             self.name = name
 
     def get_num_player(self):
         """Get the num of the player"""
+        """플레이어 수 설정"""
         return self.num_player
 
     def has_walls(self):
         """Return True if the player has walls"""
+        """플레이어 장애물 있으면 true return"""
         return self.walls_remain > 0
 
     def can_play(self, game):
         """Return True if the player can play"""
+        """플레이어 플레이 가능하면 return true"""
         return game.run and game.current_player == self.num_player
 
     def can_play_wall(self, game):
         """Return True if the player can play a wall"""
+        """플레이어 장애물 놓을 수 있으면 return true"""
         return self.can_play(game) and self.has_walls()
 
     def send_move(self, network, coord):
         """Send a move to the server"""
+        """움직임 입력을 서버로 보내기"""
         if self.has_win(coord):
             win = "w"
         else:
@@ -52,10 +59,11 @@ class Player():
 
     def play_move(self, walls, network):
         """Play a move if it is possible"""
+        """기물 움직임""" 
         keys = pygame.key.get_pressed()
         coord = self.coord
 
-        # Left
+        # Left(왼쪽 방향키)
         if keys[pygame.K_LEFT]:
             c = coord.west
             if c is not None and walls.no_wall(coord, c):
@@ -67,7 +75,7 @@ class Player():
                 else:
                     self.send_move(network, c)
 
-        # Right
+        # Right(오른쪽 방향키)
         elif keys[pygame.K_RIGHT]:
             c = coord.east
             if c is not None and walls.no_wall(coord, c):
@@ -79,7 +87,7 @@ class Player():
                 else:
                     self.send_move(network, c)
 
-        # Up
+        # Up(위쪽 방향키)
         elif keys[pygame.K_UP]:
             c = coord.north
             if c is not None and walls.no_wall(coord, c):
@@ -91,7 +99,7 @@ class Player():
                 else:
                     self.send_move(network, c)
 
-        # Down
+        # Down(아래쪽 방향키)
         elif keys[pygame.K_DOWN]:
             c = coord.south
             if c is not None and walls.no_wall(coord, c):
@@ -105,6 +113,7 @@ class Player():
 
     def send_wall(self, network, coord, orient):
         """Send a wall to the server"""
+        """움직인 벽 서버로 보내기"""
         data = ";".join(['P', str(self.num_player), str(1),
                         str(coord.x), str(coord.y), orient])
         network.send(data)
@@ -112,6 +121,7 @@ class Player():
     def play_put_wall(self, pos, coords, walls, network,
                       path_finder, players):
         """Put a wall if it is possible"""
+        """장애물 설치"""
         for c in coords.coords:
             wall_east = c.wall_east
             wall_south = c.wall_south
@@ -127,6 +137,7 @@ class Player():
 
     def draw(self, win):
         """Draw player on the game board"""
+        """비겼을 경우"""
         (x, y) = self.coord.middle
         pygame.draw.circle(win.win, self.color,
                            (x, y), self.radius)
@@ -136,6 +147,7 @@ class Player():
 
     def has_win(self, coord):
         """Return True if the player wins in the coord"""
+        """이겼을 경우"""
         if self.orient == "north" and coord.y == 8:
             return True
         if self.orient == "east" and coord.x == 0:
@@ -149,6 +161,7 @@ class Player():
 
 class Players:
     """Manage the players"""
+    """플레이어 관리"""
     def __init__(self, nb_players, coords):
         self.nb_players = nb_players
         if nb_players == 4:
@@ -169,6 +182,7 @@ class Players:
 
     def draw(self, win):
         """Draw all players on the game board"""
+        """모든 플레이어가 비겼을 경우"""
         for p in self.players:
             if p.name != '':
                 p.draw(win)
@@ -179,6 +193,7 @@ class Players:
 
     def play(self, last_play, coords, walls, path_finder):
         """Make a player play"""
+        """플레이어 플레이 시작하게 하기"""
         data = last_play.split(";")
         player = self.get_player(int(data[1]))
         type_play = int(data[2])
@@ -206,11 +221,13 @@ class Players:
 
     def set_names(self, names):
         """Set the names of players"""
+        """플레이어 이름 설정"""
         for player, name in zip(self.players, names):
             player.set_name(name)
 
     def reset(self, coords):
         """Reset the players"""
+        """플레이어 리셋"""
         if self.nb_players == 2:
             walls_remain = 10
         elif self.nb_players == 3:
@@ -226,4 +243,4 @@ class Players:
                 p.coord = coords.find_coord(4, 8)
             elif p.orient == "west":
                 p.coord = coords.find_coord(0, 4)
-            p.walls_remain = walls_remain
+/bin/bash: wq: command not found
