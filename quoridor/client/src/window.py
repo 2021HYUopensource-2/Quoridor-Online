@@ -116,7 +116,7 @@ class Window:
 
     def redraw_window(self, game, players, walls, pos):
         """Redraw the full window"""
-        """전체창으로 다시 그리기"""
+        """전체화면(?)으로 다시 그리기"""
         self.win.fill(self.bgcolor)
         self.draw_game_board(pos)
         self.draw_finish_lines(players)
